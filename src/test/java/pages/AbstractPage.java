@@ -10,7 +10,7 @@ import utils.LetterFinder;
 public abstract class AbstractPage {
 
     protected WebDriver driver;
-
+    protected LetterFinder letterFinder;
     public AbstractPage(WebDriver driver) {
         this.driver = driver;
     }
@@ -46,6 +46,12 @@ public abstract class AbstractPage {
         }
 
         return this;
+    }
+
+    public boolean isMailInFolder()
+    {
+        letterFinder = new LetterFinder();
+        return letterFinder.isMailInFolder(driver);
     }
 
 }

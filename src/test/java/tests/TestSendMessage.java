@@ -4,6 +4,7 @@ import exception.LogInException;
 import exception.MailIsNotInDraftFolderException;
 import exception.MailIsNotInSendFolderException;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import steps.Step;
@@ -43,6 +44,13 @@ public class TestSendMessage {
         step.isMailInDraftFolder();
         step.isMailNotInDraftFolder();
         Assert.assertTrue(step.isMailInSendFolder());
+    }
+
+    @AfterClass
+    public void close()
+    {
+        step.logOff();
+        step.closeConnection();
     }
 
 

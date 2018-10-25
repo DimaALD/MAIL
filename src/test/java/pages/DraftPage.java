@@ -30,17 +30,17 @@ public class DraftPage extends AbstractPage {
     @FindBy(xpath = "//div[@class = 'js-item-checkbox b-datalist__item__cbx']")
     private WebElement checkBoxForMail;
 
-    public boolean isMailInDraft() {
-        driver.navigate().refresh();
-        List<WebElement> list = driver.findElements(By.xpath("//div[@id = 'b-letters']//a[@data-name='link']"));
-        for (WebElement element : list) {
-            if (element.findElement(By.xpath("//div[@class = 'b-datalist__item__subj']")).getText().equals(Mail.getSubject() + Mail.getText())
-                    && element.findElement(By.xpath("//div[@class = 'b-datalist__item__addr']")).getText().trim().equals(Mail.getTo())) {
-                return true;
-            }
-        }
-        return false;
-    }
+//    public boolean isMailInDraft() {
+//        driver.navigate().refresh();
+//        List<WebElement> list = driver.findElements(By.xpath("//div[@id = 'b-letters']//a[@data-name='link']"));
+//        for (WebElement element : list) {
+//            if (element.findElement(By.xpath("//div[@class = 'b-datalist__item__subj']")).getText().equals(Mail.getSubject() + Mail.getText())
+//                    && element.findElement(By.xpath("//div[@class = 'b-datalist__item__addr']")).getText().trim().equals(Mail.getTo())) {
+//                return true;
+//            }
+//        }
+//        return false;
+//    }
 
     public void openMail() {
         driver.navigate().refresh();

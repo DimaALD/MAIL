@@ -2,16 +2,24 @@ package objects;
 
 import utils.Randomizer;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class Mail {
     private static Mail mail;
     private static String subject;
     private static String text;
     private static String to;
+    private Date date;
+    private SimpleDateFormat simpleDateFormat;
 
     public  Mail()
     {
-        subject = Randomizer.subject;
-        text = Randomizer.textForTextField;
+        date = new Date();
+        simpleDateFormat = new SimpleDateFormat();
+
+        subject = simpleDateFormat.format(date);
+        text = simpleDateFormat.format(date);
         to = "aldoshin.2013@mail.ru";
     }
     public static Mail getInstance()

@@ -6,11 +6,14 @@ import exception.MailIsNotInDraftFolderException;
 import exception.MailIsNotInSendFolderException;
 import objects.Mail;
 import objects.User;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import pages.CreateMalePage;
 import pages.DraftPage;
 import pages.LoginPage;
 import pages.SendPage;
+
+import java.util.List;
 
 public class Step {
     private WebDriver driver;
@@ -44,7 +47,7 @@ public class Step {
         createMalePage = new CreateMalePage(driver);
         createMalePage.createNewMail().saveMailInDraft().clickOnDraftButton();
         draftPage = new DraftPage(driver);
-        if (!draftPage.isMailInDraft())
+        if (!draftPage.isMailInFolder())
         {
             throw new MailIsNotInDraftFolderException("Mail is not found in draft foldet");
         }
@@ -57,7 +60,7 @@ public class Step {
         draftPage.openMail();
         createMalePage = new CreateMalePage(driver);
         createMalePage.sendMail();
-        if (draftPage.isMailInDraft())
+        if (draftPage.isMailInFolder())
         {
             throw new MailIsNotInDraftFolderException("Mail is still in draft");
         }
@@ -68,11 +71,15 @@ public class Step {
         draftPage = new DraftPage(driver);
         draftPage.clickOnSendReference();
         sendPage = new SendPage(driver);
-        if(!sendPage.isMailInSendFolder())
+        if(!sendPage.isMailInFolder())
         {
             throw new MailIsNotInSendFolderException("Mail is not in send folder");
         }
         return true;
+    }
+
+    public void logOff() {
+        driver.findElement(By.id("PH_logoutLink")).click();
     }
 
 }

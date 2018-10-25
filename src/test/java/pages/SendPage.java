@@ -17,18 +17,6 @@ public class SendPage extends AbstractPage {
 
     public static final String SENT_PAGE_URL = "https://e.mail.ru/messages/sent/";
 
-    public boolean isMailInSendFolder() {
-        driver.navigate().refresh();
-        List<WebElement> list = driver.findElements(By.xpath("//div[@id = 'b-letters']//a[@data-name='link']"));
-        for (WebElement element : list) {
-            if (element.findElement(By.xpath("//div[@class = 'b-datalist__item__subj']")).getText().equals(Mail.getSubject() + Mail.getText())
-                    && element.findElement(By.xpath("//div[@class = 'b-datalist__item__addr']")).getText().trim().equals(Mail.getTo())) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     @Override
     public void openPage() {
         driver.navigate().to(SENT_PAGE_URL);
