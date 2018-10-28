@@ -15,7 +15,7 @@ public class SendPage extends AbstractPage {
         PageFactory.initElements(this.driver, this);
     }
 
-    public static final String SENT_PAGE_URL = "https://e.mail.ru/messages/sent/";
+    private static final String SENT_PAGE_URL = "https://e.mail.ru/messages/sent/";
 
     @Override
     public void openPage() {

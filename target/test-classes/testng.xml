@@ -1,0 +1,19 @@
+<?xml version  = "1.0" encoding ="UTF-8"?>
+<suite name = "TEST MAIL.RU ">
+    <test name = "Send mail">
+       <classes>
+           <class name = "tests.TestSendMail"/>
+       </classes>
+    </test>
+    <test name="Mail is moved from draft to spam">
+        <classes>
+            <class name="tests.TestMoveMailToSpam"/>
+        </classes>
+    </test>
+    <test name="Mail is moved from draft to trash">
+        <classes>
+            <class name = "tests.TestMoveMailToTrash"/>
+        </classes>
+    </test>
+</suite>
+

@@ -42,20 +42,15 @@ public class CreateMalePage extends AbstractPage {
     private WebElement createNewMailButton;
 
     public CreateMalePage createNewMail() {
-        Waiter.waitForElementClickable(driver , createNewMailButton);
-
+        Waiter.waitForElementClickable(driver, createNewMailButton);
         createNewMailButton.click();
-        Waiter.waitForElementClickable(driver,toField);
-
+        Waiter.waitForElementClickable(driver, toField);
         toField.sendKeys(Mail.getTo());
-        Waiter.waitForElementClickable(driver,subjectField);
-
+        Waiter.waitForElementClickable(driver, subjectField);
         subjectField.sendKeys(Mail.getSubject());
-        Waiter.waitForElementVisible(driver , iframeForTextField);
-
+        Waiter.waitForElementVisible(driver, iframeForTextField);
         driver.switchTo().frame(iframeForTextField);
-        Waiter.waitForElementClickable(driver,bodyForTextField);
-
+        Waiter.waitForElementClickable(driver, bodyForTextField);
         bodyForTextField.clear();
         bodyForTextField.sendKeys(Mail.getText());
         driver.switchTo().defaultContent();
@@ -63,19 +58,16 @@ public class CreateMalePage extends AbstractPage {
     }
 
     public CreateMalePage saveMailInDraft() {
-        Waiter.waitForElementClickable(driver,saveButton);
-        //waitForElementClickable(saveButton);
+        Waiter.waitForElementClickable(driver, saveButton);
         saveButton.click();
-        Waiter.waitForElementClickable(driver,messageIsSavedInDraft);
-       // waitForElementVisible(messageIsSavedInDraft);
+        Waiter.waitForElementClickable(driver, messageIsSavedInDraft);
         return this;
     }
 
-    public CreateMalePage sendMail()
-    {
-        Waiter.waitForElementClickable(driver,By.xpath("//div[@data-name = 'send']"));
+    public CreateMalePage sendMail() {
+        Waiter.waitForElementClickable(driver, By.xpath("//div[@data-name = 'send']"));
         sendButton.click();
-        Waiter.waitForElementVisible(driver,By.xpath("//div[@class = 'message-sent__title']"));
+        Waiter.waitForElementVisible(driver, By.xpath("//div[@class = 'message-sent__title']"));
         clickOnDraftButton();
         return this;
     }

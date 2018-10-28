@@ -1,21 +1,25 @@
 package tests;
 
 import exception.LogInException;
-import exception.MailIsNotInDraftFolderException;
-import exception.MailIsNotInSendFolderException;
+import exception.MailIsNotInFolderException;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 import steps.Step;
 
-public class TestSendMessage {
+public class TestSendMail {
     private Step step;
-    @BeforeClass
+    @BeforeMethod
     public void init()
     {
         step = new Step();
         step.initDriver();
+    }
+
+    @AfterMethod
+    public void close()
+    {
+        step.logOff();
+        step.closeConnection();
     }
 
     @Test
@@ -25,33 +29,28 @@ public class TestSendMessage {
     }
 
     @Test
-    public void testMailIsInDraftFolder() throws MailIsNotInDraftFolderException , LogInException {
+    public void testMailIsInDraftFolder() throws MailIsNotInFolderException, LogInException {
         step.getLogin();
         Assert.assertTrue(step.isMailInDraftFolder());
     }
 
-
+    // FIXME: 28.10.2018 Doesn't work with all tests
     @Test
-    public void testMailIsNotInDraft() throws MailIsNotInDraftFolderException , LogInException{
+    public void testMailIsNotInDraft() throws MailIsNotInFolderException, LogInException{
         step.getLogin();
         step.isMailInDraftFolder();
         Assert.assertFalse(step.isMailNotInDraftFolder());
     }
 
     @Test
-    public void testMailInSendFolder() throws MailIsNotInDraftFolderException , MailIsNotInSendFolderException ,LogInException{
+    public void testMailInSendFolder() throws MailIsNotInFolderException,LogInException{
         step.getLogin();
         step.isMailInDraftFolder();
         step.isMailNotInDraftFolder();
         Assert.assertTrue(step.isMailInSendFolder());
     }
 
-    @AfterClass
-    public void close()
-    {
-        step.logOff();
-        step.closeConnection();
-    }
+
 
 
 

@@ -16,7 +16,7 @@ public class Mail {
     public  Mail()
     {
         date = new Date();
-        simpleDateFormat = new SimpleDateFormat();
+        simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
 
         subject = simpleDateFormat.format(date);
         text = simpleDateFormat.format(date);

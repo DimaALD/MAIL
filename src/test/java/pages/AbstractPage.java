@@ -48,10 +48,43 @@ public abstract class AbstractPage {
         return this;
     }
 
-    public boolean isMailInFolder()
+    public AbstractPage clickOnSpamReference()
+    {
+        while (true) {
+            try {
+                driver.findElement(By.xpath("//span[@class = 'b-nav__item__text'][text() = 'Спам']")).click();
+                break;
+            } catch (StaleElementReferenceException exc) {
+            }
+        }
+
+        return this;
+    }
+
+    public AbstractPage clickOnTrashReference()
+    {
+        while (true) {
+            try {
+                driver.findElement(By.xpath("//span[@class = 'b-nav__item__text'][text() = 'Корзина']")).click();
+                break;
+            } catch (StaleElementReferenceException exc) {
+            }
+        }
+
+        return this;
+    }
+
+    public boolean isMailInFolder(String subjectAndText , String addressee)
     {
         letterFinder = new LetterFinder();
-        return letterFinder.isMailInFolder(driver);
+        return letterFinder.isMailInFolder(driver,subjectAndText,addressee);
     }
+
+    public WebElement getMailFromFolder()
+    {
+        letterFinder = new LetterFinder();
+        return letterFinder.getMailFromFolder(driver);
+    }
+
 
 }
