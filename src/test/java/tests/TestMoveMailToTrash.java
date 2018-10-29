@@ -1,10 +1,11 @@
 package tests;
 
 import exception.LogInException;
-import exception.MailIsNotInFolderException;
+import exception.MailsLocationException;
 import org.testng.Assert;
 import org.testng.annotations.*;
 import steps.Step;
+import sun.misc.ASCIICaseInsensitiveComparator;
 
 public class TestMoveMailToTrash {
     private Step step;
@@ -16,21 +17,18 @@ public class TestMoveMailToTrash {
     }
 
     @Test
-    public void testLogIn() throws LogInException {
-        Assert.assertTrue(step.getLogin());
+    public void testIsLoggedIn() throws LogInException {
+        Assert.assertTrue(step.isLoggedIn());
     }
 
     @Test
-    public void testMailIsInDraftFolder() throws MailIsNotInFolderException, LogInException {
-        step.getLogin();
-        Assert.assertTrue(step.isMailInDraftFolder());
+    public void testMailIsInDraftFolder() throws MailsLocationException {
+        Assert.assertTrue(step.isMailInDraft());
     }
 
     @Test
-    public void testMoveMailToTrash() throws LogInException, MailIsNotInFolderException {
-        step.getLogin();
-        step.isMailInDraftFolder();
-        Assert.assertTrue(step.isMailInTrashFolder());
+    public void testMailIsInTrash() throws MailsLocationException {
+        Assert.assertTrue(step.isMailInTrash());
     }
 
     @AfterMethod

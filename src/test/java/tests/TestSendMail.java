@@ -1,7 +1,7 @@
 package tests;
 
 import exception.LogInException;
-import exception.MailIsNotInFolderException;
+import exception.MailsLocationException;
 import org.testng.Assert;
 import org.testng.annotations.*;
 import steps.Step;
@@ -23,32 +23,25 @@ public class TestSendMail {
     }
 
     @Test
-    public void testLogIn() throws LogInException
-    {
-        Assert.assertTrue(step.getLogin());
+    public void testIsLoggedIn() throws LogInException  {
+       Assert.assertTrue(step.isLoggedIn());
     }
 
     @Test
-    public void testMailIsInDraftFolder() throws MailIsNotInFolderException, LogInException {
-        step.getLogin();
-        Assert.assertTrue(step.isMailInDraftFolder());
+    public void testMailIsInDraftFolder() throws  MailsLocationException {
+        Assert.assertTrue(step.isMailInDraft());
     }
 
-    // FIXME: 28.10.2018 Doesn't work with all tests
-    @Test
-    public void testMailIsNotInDraft() throws MailIsNotInFolderException, LogInException{
-        step.getLogin();
-        step.isMailInDraftFolder();
-        Assert.assertFalse(step.isMailNotInDraftFolder());
+    @Test(expectedExceptions = MailsLocationException.class)
+    public void testMailIsNotInDraft() throws MailsLocationException {
+       step.isMailNotInDraft();
     }
 
     @Test
-    public void testMailInSendFolder() throws MailIsNotInFolderException,LogInException{
-        step.getLogin();
-        step.isMailInDraftFolder();
-        step.isMailNotInDraftFolder();
-        Assert.assertTrue(step.isMailInSendFolder());
+    public void testMailInSendFolder() throws MailsLocationException {
+       Assert.assertTrue(step.isMailInSend());
     }
+
 
 
 

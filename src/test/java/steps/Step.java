@@ -2,14 +2,12 @@ package steps;
 
 import driver.Driver;
 import exception.LogInException;
-import exception.MailIsNotInFolderException;
+import exception.MailsLocationException;
 import objects.Mail;
 import objects.User;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import pages.*;
-
-import java.net.MalformedURLException;
 
 public class Step {
     private WebDriver driver;
@@ -21,7 +19,7 @@ public class Step {
     private TrashPage trashPage;
 
     public void initDriver() {
-        driver = Driver.getDriver();
+        driver = Driver.getDriver(Driver.createDriver.CHROME);
         User.getInstance();
         Mail.getInstance();
     }
@@ -30,73 +28,90 @@ public class Step {
         Driver.closeDriver();
     }
 
-    public boolean getLogin() throws LogInException {
+    private void logInMailru(){
         loginPage = new LoginPage(driver);
         loginPage.openPage();
         loginPage.logIn();
-        if (!loginPage.isLoggedIn())
-        {
-            throw new LogInException("Invalid authorization");
-        }
-        return true;
     }
 
-    public boolean isMailInDraftFolder() throws MailIsNotInFolderException {
+
+    private void createMail(){
         createMalePage = new CreateMalePage(driver);
         createMalePage.createNewMail().saveMailInDraft().clickOnDraftButton();
-        draftPage = new DraftPage(driver);
-        if (!draftPage.isMailInFolder(Mail.getSubject() + Mail.getText(),Mail.getTo()))
-        {
-            throw new MailIsNotInFolderException("Mail is not found in draft folder");
-        }
-        return true;
-
     }
 
-    public boolean isMailNotInDraftFolder() throws MailIsNotInFolderException {
+    private void sendMail(){
         draftPage = new DraftPage(driver);
         draftPage.getMailFromFolder().click();
-        createMalePage = new CreateMalePage(driver);
         createMalePage.sendMail();
-        if (draftPage.isMailInFolder(Mail.getSubject() + Mail.getText(),Mail.getTo()))
-        {
-            throw new MailIsNotInFolderException("Mail is still in draft");
-        }
-        return false;
     }
 
-    public boolean isMailInSendFolder() throws MailIsNotInFolderException {
+    public boolean isLoggedIn() throws LogInException {
+        loginPage = new LoginPage(driver);
+        logInMailru();
+        if (!loginPage.isLoggedIn()) {
+            throw new LogInException("Log in Mail.ru is failed");
+        }
+        return true;
+    }
+
+    public boolean isMailInDraft() throws MailsLocationException {
+        logInMailru();
+        createMail();
+        draftPage = new DraftPage(driver);
+        if (!draftPage.isMailInFolder(Mail.getSubject() + Mail.getText(), Mail.getTo())) {
+            throw new MailsLocationException("Mail is not found in draft folder");
+        }
+        return true;
+    }
+
+    public boolean isMailNotInDraft() throws MailsLocationException {
+        logInMailru();
+        createMail();
+        sendMail();
+        draftPage = new DraftPage(driver);
+        if (!draftPage.isMailInFolder(Mail.getSubject() + Mail.getText(), Mail.getTo())) {
+            throw new MailsLocationException("Mail is not disappeared from draft");
+        }
+        return true;
+    }
+
+    public boolean isMailInSend() throws MailsLocationException {
+        try {
+            isMailNotInDraft();
+        }catch (MailsLocationException exc) { }
         draftPage = new DraftPage(driver);
         draftPage.clickOnSendReference();
         sendPage = new SendPage(driver);
-        if(!sendPage.isMailInFolder(Mail.getSubject() + Mail.getText(),Mail.getTo()))
-        {
-            throw new MailIsNotInFolderException("Mail is not in send folder");
+        if (!sendPage.isMailInFolder(Mail.getSubject() + Mail.getText(), Mail.getTo())) {
+            throw new MailsLocationException("Mail is not in send folder");
+        }
+        return true;
+    }
+    public boolean isMailInTrash() throws MailsLocationException {
+        logInMailru();
+        createMail();
+        draftPage = new DraftPage(driver);
+        draftPage.moveMailToTrash();
+        trashPage = new TrashPage(driver);
+        if (!trashPage.isMailInFolder(Mail.getSubject()+Mail.getText(),"Dzmitry Aldoshin")) {
+            throw new MailsLocationException("Mail is not in trash folder");
         }
         return true;
     }
 
-    public boolean isMailInSpamFolder() throws MailIsNotInFolderException {
+    public boolean isMailInSpam() throws MailsLocationException {
+        logInMailru();
+        createMail();
         draftPage = new DraftPage(driver);
         draftPage.moveMailToSpam();
         spamPage = new SpamPage(driver);
         if(!spamPage.isMailInFolder(Mail.getSubject() + Mail.getText(),"Dzmitry Aldoshin"))
         {
-            throw new MailIsNotInFolderException("Mail is not in spam folder");
+            throw new MailsLocationException("Mail is not in spam folder");
         }
         return true;
     }
-
-    public boolean isMailInTrashFolder() throws MailIsNotInFolderException {
-        draftPage = new DraftPage(driver);
-        draftPage.moveMailToTrash();
-        trashPage = new TrashPage(driver);
-        if (!trashPage.isMailInFolder(Mail.getSubject()+Mail.getText(),"Dzmitry Aldoshin")) {
-            throw new MailIsNotInFolderException("Mail is not in trash folder");
-        }
-        return true;
-    }
-
     public void logOff() {
         driver.findElement(By.id("PH_logoutLink")).click();
     }

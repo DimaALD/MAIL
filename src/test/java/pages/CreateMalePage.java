@@ -50,7 +50,6 @@ public class CreateMalePage extends AbstractPage {
         subjectField.sendKeys(Mail.getSubject());
         Waiter.waitForElementVisible(driver, iframeForTextField);
         driver.switchTo().frame(iframeForTextField);
-        Waiter.waitForElementClickable(driver, bodyForTextField);
         bodyForTextField.clear();
         bodyForTextField.sendKeys(Mail.getText());
         driver.switchTo().defaultContent();

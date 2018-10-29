@@ -48,8 +48,7 @@ public abstract class AbstractPage {
         return this;
     }
 
-    public AbstractPage clickOnSpamReference()
-    {
+    public AbstractPage clickOnSpamReference() {
         while (true) {
             try {
                 driver.findElement(By.xpath("//span[@class = 'b-nav__item__text'][text() = 'Спам']")).click();
@@ -61,8 +60,7 @@ public abstract class AbstractPage {
         return this;
     }
 
-    public AbstractPage clickOnTrashReference()
-    {
+    public AbstractPage clickOnTrashReference() {
         while (true) {
             try {
                 driver.findElement(By.xpath("//span[@class = 'b-nav__item__text'][text() = 'Корзина']")).click();
